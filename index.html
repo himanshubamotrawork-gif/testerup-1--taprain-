@@ -411,29 +411,30 @@
   const UNDER21_LINK    = "https://tranquil-dolphin-19fa09.netlify.app/";
 
   // Get source and cid from URL
-  function getTrackingParams() {
+function getTrackingParams() {
     const params = new URLSearchParams(window.location.search);
     return {
       source: params.get('source') || params.get('utm_source') || params.get('src') || '',
-      cid: params.get('cid') || params.get('__CID_NAME__') || ''
+      cid: params.get('cid') || '',
+      ttclid: params.get('ttclid') || ''
     };
-  }
+}
 
-  // Build affiliate link with source & cid
+  // Build affiliate link with source, cid & ttclid
   function buildAffLink(base) {
     const tracking = getTrackingParams();
     const parts = [];
     
     if (tracking.source) parts.push(`source=${encodeURIComponent(tracking.source)}`);
     if (tracking.cid) parts.push(`cid=${encodeURIComponent(tracking.cid)}`);
+    if (tracking.ttclid) parts.push(`ttclid=${encodeURIComponent(tracking.ttclid)}`);
     
     if (parts.length === 0) return base;
     
     const sep = base.includes("?") ? "&" : "?";
     return `${base}${sep}${parts.join('&')}`;
   }
-
-  // ── SCREEN SWITCHERS ───────────────────────────────────
+  // ── SCREEN SWITCHER ─────────────────────────────────
   function showScreen(id) {
     document.querySelectorAll(".screen").forEach(s => s.classList.remove("active"));
     document.getElementById(id).classList.add("active");
